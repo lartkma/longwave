@@ -20,6 +20,9 @@ function App() {
       <div style={style}>
         <BrowserRouter>
           <Switch>
+            <Route path="/index-:locale">
+              <LandingPage />
+            </Route>
             <Route path="/:roomId">
               <GameRoom />
             </Route>

@@ -1,12 +1,26 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import { RandomFourCharacterString } from "../../state/RandomFourCharacterString";
 import { CenteredColumn } from "./LayoutElements";
 import { Button } from "./Button";
+import { MiniMarkdown } from "./MiniMarkdown";
 import { LongwaveAppTitle } from "./Title";
+import { GetLocaleData, GetLocaleList } from "../../locale/GetLocaleData";
 
 export function LandingPage() {
   const history = useHistory();
+  const { locale } = useParams();
+
+  let linkList = GetLocaleList().map(x => <Link to={`/index-${x.prefix}`}>{x.name}</Link>);
+  linkList = linkList.reduce((acc: any[], x, idx) => {
+    if (idx !== 0) {
+      acc.push(' | ');
+    }
+    acc.push(x);
+
+    return acc;
+  }, []);
+
   return (
     <CenteredColumn>
       <LongwaveAppTitle />
@@ -17,8 +31,10 @@ export function LandingPage() {
         }}
       />
       <p style={{ margin: 8 }}>
-        <strong>Longwave</strong> is an online, real-time adaptation of the{" "}
-        <em>Wavelength</em> board game. Best enjoyed with voice chat!
+        <MiniMarkdown text={GetLocaleData(locale).strings.welcome} />
+      </p>
+      <p style={{ margin: 8, fontSize: "small" }}>
+        {linkList}
       </p>
     </CenteredColumn>
   );
