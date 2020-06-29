@@ -2,8 +2,11 @@ import React from "react";
 import { TurnSummaryModel } from "../../state/GameState";
 import { CenteredColumn } from "../common/LayoutElements";
 import { Spectrum } from "../common/Spectrum";
+import { MiniMarkdown } from "../common/MiniMarkdown";
+import { GetLocaleData } from "../../locale/GetLocaleData";
+import { ReplaceParameters } from "../common/ReplaceParameters";
 
-export function PreviousTurnResult(props: TurnSummaryModel) {
+export function PreviousTurnResult(props: TurnSummaryModel & {locale: string}) {
   const style: React.CSSProperties = {
     borderTop: "1px solid black",
     margin: 16,
@@ -19,11 +22,12 @@ export function PreviousTurnResult(props: TurnSummaryModel) {
     bottom: 0,
     backgroundColor: "rgba(255,255,255,0.5)",
   };
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   return (
     <div style={style}>
       <CenteredColumn>
-        <em>Previous Turn</em>
+        <em>{localeStrings.previousTurnMessage}</em>
       </CenteredColumn>
       <div
         style={{
@@ -35,10 +39,11 @@ export function PreviousTurnResult(props: TurnSummaryModel) {
           spectrumCard={props.spectrumCard}
           handleValue={props.guess}
           targetValue={props.spectrumTarget}
+          locale={props.locale}
         />
         <CenteredColumn>
           <div>
-            {props.clueGiverName}'s clue: <strong>{props.clue}</strong>
+            <MiniMarkdown text={ReplaceParameters(localeStrings.clueGivenLabel, {name: props.clueGiverName, clue: props.clue})} />
           </div>
         </CenteredColumn>
       </div>

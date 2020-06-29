@@ -22,7 +22,7 @@ test("Should show help text when more players are needed", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "player1")}
     >
-      <MakeGuess />
+      <MakeGuess locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -50,7 +50,7 @@ test("Should show help text when more players are needed", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "player1")}
     >
-      <MakeGuess />
+      <MakeGuess locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -78,7 +78,7 @@ test("Should show button to submit your team's guess", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "player1")}
     >
-      <MakeGuess />
+      <MakeGuess locale="en"/>
     </GameModelContext.Provider>
   );
 

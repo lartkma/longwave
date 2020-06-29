@@ -23,18 +23,18 @@ export function ActiveGame(props: {locale: string}) {
     (gameState.roundPhase === RoundPhase.PickTeams ||
       localPlayer.team === Team.Unset)
   ) {
-    return <JoinTeam />;
+    return <JoinTeam locale={props.locale} />;
   }
 
   return (
     <>
-      {gameState.roundPhase === RoundPhase.GiveClue && <GiveClue />}
-      {gameState.roundPhase === RoundPhase.MakeGuess && <MakeGuess />}
-      {gameState.roundPhase === RoundPhase.CounterGuess && <CounterGuess />}
-      {gameState.roundPhase === RoundPhase.ViewScore && <ViewScore />}
-      <Scoreboard />
+      {gameState.roundPhase === RoundPhase.GiveClue && <GiveClue locale={props.locale} />}
+      {gameState.roundPhase === RoundPhase.MakeGuess && <MakeGuess locale={props.locale} />}
+      {gameState.roundPhase === RoundPhase.CounterGuess && <CounterGuess locale={props.locale} />}
+      {gameState.roundPhase === RoundPhase.ViewScore && <ViewScore locale={props.locale} />}
+      <Scoreboard locale={props.locale} />
       {gameState.previousTurn && (
-        <PreviousTurnResult {...gameState.previousTurn} />
+        <PreviousTurnResult {...gameState.previousTurn} locale={props.locale} />
       )}
     </>
   );

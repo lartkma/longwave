@@ -8,8 +8,10 @@ import { GameModelContext } from "../../state/GameModelContext";
 import { RandomSpectrumTarget } from "../../state/RandomSpectrumTarget";
 import { Info } from "../common/Info";
 import { Animate } from "../common/Animate";
+import { GetLocaleData } from "../../locale/GetLocaleData";
+import { ReplaceParameters } from "../common/ReplaceParameters";
 
-export function GiveClue() {
+export function GiveClue(props: {locale: string}) {
   const {
     gameState,
     localPlayer,
@@ -21,6 +23,7 @@ export function GiveClue() {
   const [disableSubmit, setDisableSubmit] = useState(
     !inputElement.current?.value?.length
   );
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   if (!clueGiver) {
     setGameState({
@@ -33,10 +36,10 @@ export function GiveClue() {
     return (
       <div>
         <Animate animation="wipe-reveal-right">
-          <Spectrum spectrumCard={spectrumCard} />
+          <Spectrum spectrumCard={spectrumCard} locale={props.locale}/>
         </Animate>
         <CenteredColumn>
-          <div>Waiting for {clueGiver.name} to provide a clue...</div>
+          <div>{ReplaceParameters(localeStrings.clueWaitingMessage, {name: clueGiver.name})}</div>
         </CenteredColumn>
       </div>
     );
@@ -63,19 +66,20 @@ export function GiveClue() {
   return (
     <div>
       <CenteredColumn style={{ alignItems: "flex-end" }}>
-        <Button text="Draw a different card" onClick={redrawCard} />
+        <Button text={localeStrings.drawNewCardButton} onClick={redrawCard} />
       </CenteredColumn>
       <Animate animation="wipe-reveal-right">
         <Spectrum
           targetValue={gameState.spectrumTarget}
           spectrumCard={spectrumCard}
+          locale={props.locale}
         />
       </Animate>
       <CenteredColumn>
         <CenteredRow>
           <input
             type="text"
-            placeholder="Clue..."
+            placeholder={localeStrings.cluePlaceholder}
             ref={inputElement}
             onKeyDown={(event) => {
               if (event.key !== "Enter") {
@@ -89,20 +93,17 @@ export function GiveClue() {
           />
           <Info>
             <div>
-              Your clue should be some concept that lies on the provided
-              spectrum, conceptually located where the target is between the two
-              extremes. For example, "coffee" might be a good clue that lies on
-              a spectrum of "hot" to "cold".
+              {localeStrings.clueHelpMessage}
               <ul>
-                <li>Convey a single thought</li>
-                <li>Stay on topic</li>
-                <li>No numbers allowed</li>
-                <li>Be creative!</li>
+                <li>{localeStrings.clueTip1Message}</li>
+                <li>{localeStrings.clueTip2Message}</li>
+                <li>{localeStrings.clueTip3Message}</li>
+                <li>{localeStrings.clueTip4Message}</li>
               </ul>
             </div>
           </Info>
         </CenteredRow>
-        <Button text="Submit Clue" onClick={submit} disabled={disableSubmit} />
+        <Button text={localeStrings.clueSubmitButton} onClick={submit} disabled={disableSubmit} />
       </CenteredColumn>
     </div>
   );

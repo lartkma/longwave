@@ -23,7 +23,7 @@ test("Assigns player to the selected team", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, setState, "playerId")}
     >
-      <JoinTeam />
+      <JoinTeam locale="en" />
     </GameModelContext.Provider>
   );
 
@@ -75,7 +75,7 @@ test("Shows current team members", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <JoinTeam />
+      <JoinTeam locale="en" />
     </GameModelContext.Provider>
   );
 

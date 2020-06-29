@@ -27,7 +27,7 @@ test("Applies 4 points for a perfect guess", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -46,7 +46,7 @@ test("Applies 2 points for off by 2", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -65,7 +65,7 @@ test("Applies 0 points for off by 3", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -85,7 +85,7 @@ test("Includes the score for a correct counter guess", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -107,7 +107,7 @@ test("Includes the score for a wrong counter guess", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -129,7 +129,7 @@ test("Applies catchup rule", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -149,7 +149,7 @@ test("Ends game when one team has 10 points", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 
@@ -168,7 +168,7 @@ test("Does not end game when both teams have 10 points", () => {
     <GameModelContext.Provider
       value={BuildGameModel(gameState, jest.fn(), "playerId")}
     >
-      <ViewScore />
+      <ViewScore locale="en"/>
     </GameModelContext.Provider>
   );
 

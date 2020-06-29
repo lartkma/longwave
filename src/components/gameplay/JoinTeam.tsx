@@ -6,9 +6,11 @@ import { LongwaveAppTitle } from "../common/Title";
 import { useContext } from "react";
 import { GameModelContext } from "../../state/GameModelContext";
 import { NewTeamGame } from "../../state/NewGame";
+import { GetLocaleData } from "../../locale/GetLocaleData";
 
-export function JoinTeam() {
+export function JoinTeam(props: {locale: string}) {
   const { gameState, localPlayer, setGameState } = useContext(GameModelContext);
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   const leftTeam = Object.keys(gameState.players).filter(
     (playerId) => gameState.players[playerId].team === Team.Left
@@ -37,7 +39,7 @@ export function JoinTeam() {
   return (
     <CenteredColumn>
       <LongwaveAppTitle />
-      <div>Join Team:</div>
+      <div>{localeStrings.joinTeamPrompt}</div>
       <CenteredRow
         style={{
           alignItems: "flex-start",
@@ -45,26 +47,26 @@ export function JoinTeam() {
         }}
       >
         <CenteredColumn>
-          <div>{TeamName(Team.Left)}</div>
+          <div>{localeStrings[TeamName(Team.Left)]}</div>
           {leftTeam.map((playerId) => (
             <div key={playerId}>{gameState.players[playerId].name}</div>
           ))}
           <div>
-            <Button text="Join" onClick={() => joinTeam(Team.Left)} />
+            <Button text={localeStrings.joinGameButton} onClick={() => joinTeam(Team.Left)} />
           </div>
         </CenteredColumn>
         <CenteredColumn>
-          <div>{TeamName(Team.Right)}</div>
+          <div>{localeStrings[TeamName(Team.Right)]}</div>
           {rightTeam.map((playerId) => (
             <div key={playerId}>{gameState.players[playerId].name}</div>
           ))}
           <div>
-            <Button text="Join" onClick={() => joinTeam(Team.Right)} />
+            <Button text={localeStrings.joinGameButton} onClick={() => joinTeam(Team.Right)} />
           </div>
         </CenteredColumn>
       </CenteredRow>
       {gameState.roundPhase === RoundPhase.PickTeams && (
-        <Button text="Start Game" onClick={startGame} />
+        <Button text={localeStrings.startGameButton} onClick={startGame} />
       )}
     </CenteredColumn>
   );

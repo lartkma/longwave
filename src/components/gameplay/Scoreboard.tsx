@@ -7,9 +7,11 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { Animate } from "../common/Animate";
 import { useRef } from "react";
 import { useEffect } from "react";
+import { GetLocaleData } from "../../locale/GetLocaleData";
 
-export function Scoreboard() {
+export function Scoreboard(props: {locale: string}) {
   const { gameState } = useContext(GameModelContext);
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   const style = {
     borderTop: "1px solid black",
@@ -21,7 +23,7 @@ export function Scoreboard() {
   if (gameState.gameType === GameType.Freeplay) {
     return (
       <CenteredColumn style={style}>
-        <em>Free Play</em>
+        <em>{localeStrings.freeModeTitle}</em>
         <CenteredRow style={{ flexWrap: "wrap" }}>
           {Object.keys(gameState.players).map(toPlayerRow)}
         </CenteredRow>
@@ -31,14 +33,22 @@ export function Scoreboard() {
 
   return (
     <CenteredRow style={style}>
-      <TeamColumn team={Team.Left} score={gameState.leftScore} />
-      <TeamColumn team={Team.Right} score={gameState.rightScore} />
+      <TeamColumn team={Team.Left} score={gameState.leftScore} locale={props.locale} />
+      <TeamColumn team={Team.Right} score={gameState.rightScore} locale={props.locale} />
     </CenteredRow>
   );
 }
 
-function TeamColumn(props: { team: Team; score: number }) {
+function TeamColumn(props: { team: Team; score: number, locale: string }) {
   const { gameState } = useContext(GameModelContext);
+  const localeStrings = GetLocaleData(props.locale).strings;
+
+  let pointCounterTemplate : string;
+  if (typeof localeStrings.pointCounter === 'string') {
+    pointCounterTemplate = localeStrings.pointCounter;
+  } else {
+    pointCounterTemplate = localeStrings.pointCounter(props.score);
+  }
 
   const members = Object.keys(gameState.players).filter(
     (playerId) => gameState.players[playerId].team === props.team
@@ -47,7 +57,7 @@ function TeamColumn(props: { team: Team; score: number }) {
   return (
     <CenteredColumn style={{ alignItems: "flex-start" }}>
       <div>
-        {TeamName(props.team)}: <AnimatableScore score={props.score} /> POINTS
+        {convertTemplateToComponentArray(pointCounterTemplate, localeStrings[TeamName(props.team)], props.score)}
       </div>
       {members.map(toPlayerRow)}
     </CenteredColumn>
@@ -81,6 +91,33 @@ function AnimatableScore(props: { score: number }) {
       </Animate>
     </span>
   );
+}
+
+function convertTemplateToComponentArray(template: string, teamName: string, score: number) {
+  const paramsRegex = /{(team|value)}/g;
+  let lastIndex = 0;
+  let foundElement;
+  let parsedText: any[] = [];
+
+  while ((foundElement = paramsRegex.exec(template)) != null) {
+    if (foundElement.index !== lastIndex) {
+      parsedText.push(template.slice(lastIndex, foundElement.index));
+    }
+
+    if (foundElement[1] === 'team') {
+      parsedText.push(teamName);
+    } else if (foundElement[1] === 'value') {
+      parsedText.push(<AnimatableScore key="score-obj" score={score} />);
+    }
+
+    lastIndex = foundElement.index + foundElement[0].length;
+  }
+
+  if (lastIndex !== template.length) {
+    parsedText.push(template.slice(lastIndex));
+  }
+
+  return <>{parsedText}</>;
 }
 
 function toPlayerRow(playerId: string) {

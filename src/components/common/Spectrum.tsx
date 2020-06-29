@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "rc-slider";
 import { CenteredColumn, CenteredRow } from "./LayoutElements";
 import { GetContrastingColors } from "./GetContrastingColors";
+import { GetLocaleData } from "../../locale/GetLocaleData";
 
 export function Spectrum(props: {
   spectrumCard: [string, string];
@@ -9,6 +10,7 @@ export function Spectrum(props: {
   targetValue?: number;
   guessingValue?: number;
   onChange?: (newValue: number) => void;
+  locale: string;
 }) {
   const [primary, secondary] = GetContrastingColors(
     getStringHash(props.spectrumCard[0])
@@ -17,6 +19,7 @@ export function Spectrum(props: {
     padding: 8,
     fontWeight: "bold",
   };
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   let handleStyle: React.CSSProperties = {
     height: 18,
@@ -49,14 +52,14 @@ export function Spectrum(props: {
   if (props.targetValue !== undefined) {
     marks[props.targetValue] = {
       style: { fontWeight: "bold", color: "black", cursor: "auto" },
-      label: "Target",
+      label: localeStrings.dialTargetLabel,
     };
   }
 
   if (props.guessingValue !== undefined) {
     marks[props.guessingValue] = {
       style: { fontWeight: "bold", color: "black", cursor: "auto" },
-      label: "Guessing...",
+      label: localeStrings.dialGuessingLabel,
     };
   }
 
