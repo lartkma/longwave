@@ -1,6 +1,11 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+import { MiniMarkdown } from "./MiniMarkdown";
+import { GetLocaleData } from "../../locale/GetLocaleData";
 
 export function CommonFooter() {
+  const { locale } = useParams();
+
   return (
     <div
       style={{
@@ -11,15 +16,7 @@ export function CommonFooter() {
         fontSize: "small",
       }}
     >
-      <a
-        href="https://www.wavelength.zone/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Wavelength
-      </a>{" "}
-      is designed by Wolfgang Warsch, Alex Hague, and Justin Vickers. Adapted
-      for web by Evan Bailey and Margarethe Schoen.
+      <MiniMarkdown text={GetLocaleData(locale).strings.credits}/>
     </div>
   );
 }

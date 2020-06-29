@@ -10,6 +10,7 @@ import { GetLocaleData, GetLocaleList } from "../../locale/GetLocaleData";
 export function LandingPage() {
   const history = useHistory();
   const { locale } = useParams();
+  const localeStrings = GetLocaleData(locale).strings;
 
   let linkList = GetLocaleList().map((x, idx) => <Link key={idx} to={`/index-${x.prefix}`}>{x.name}</Link>);
   linkList = linkList.reduce((acc: any[], x, idx) => {
@@ -25,13 +26,13 @@ export function LandingPage() {
     <CenteredColumn>
       <LongwaveAppTitle />
       <Button
-        text="Create Room"
+        text={localeStrings.createRoomButton}
         onClick={() => {
           history.push("/" + RandomFourCharacterString());
         }}
       />
       <p style={{ margin: 8 }}>
-        <MiniMarkdown text={GetLocaleData(locale).strings.welcome} />
+        <MiniMarkdown text={localeStrings.welcome} />
       </p>
       <p style={{ margin: 8, fontSize: "small" }}>
         {linkList}

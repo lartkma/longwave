@@ -2,6 +2,8 @@ export type LocaleData = {
   prefix: string,
   name: string,
   strings: { 
-    welcome: string
+    welcome: string,
+    credits: string,
+    createRoomButton: string
   }
 };

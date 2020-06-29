@@ -22,15 +22,17 @@ function App() {
           <Switch>
             <Route path="/index-:locale">
               <LandingPage />
+              <CommonFooter />
             </Route>
             <Route path="/:roomId">
               <GameRoom />
+              <CommonFooter />
             </Route>
             <Route path="/">
               <LandingPage />
+              <CommonFooter />
             </Route>
           </Switch>
-          <CommonFooter />
         </BrowserRouter>
       </div>
     </CenteredColumn>
