@@ -6,6 +6,7 @@ export function MiniMarkdown(props: { text: string }) {
   let lastIndex = 0;
   let foundElement;
   let parsedText: any[] = [];
+  let reactKey = 0;
 
   while ((foundElement = formatElements.exec(props.text)) != null) {
     if (foundElement.index !== lastIndex) {
@@ -13,11 +14,11 @@ export function MiniMarkdown(props: { text: string }) {
     }
 
     if (foundElement[1]) {  // An **expression** found
-      parsedText.push(<strong>{foundElement[1]}</strong>);
+      parsedText.push(<strong key={reactKey++}>{foundElement[1]}</strong>);
     } else if (foundElement[2]) {   // An *expression* found
-      parsedText.push(<em>{foundElement[2]}</em>);
+      parsedText.push(<em key={reactKey++}>{foundElement[2]}</em>);
     } else if (foundElement[3] && foundElement[4]) {  // An [expression](link) found
-      parsedText.push(<a href={foundElement[4]}>{foundElement[3]}</a>);
+      parsedText.push(<a key={reactKey++} href={foundElement[4]} target="_blank" rel="noopener noreferrer">{foundElement[3]}</a>);
     }
 
     lastIndex = foundElement.index + foundElement[0].length;

@@ -11,7 +11,7 @@ export function LandingPage() {
   const history = useHistory();
   const { locale } = useParams();
 
-  let linkList = GetLocaleList().map(x => <Link to={`/index-${x.prefix}`}>{x.name}</Link>);
+  let linkList = GetLocaleList().map((x, idx) => <Link key={idx} to={`/index-${x.prefix}`}>{x.name}</Link>);
   linkList = linkList.reduce((acc: any[], x, idx) => {
     if (idx !== 0) {
       acc.push(' | ');
