@@ -4,7 +4,6 @@ import { CenteredColumn } from "../common/LayoutElements";
 import { Spectrum } from "../common/Spectrum";
 import { MiniMarkdown } from "../common/MiniMarkdown";
 import { GetLocaleData } from "../../locale/GetLocaleData";
-import { ReplaceParameters } from "../common/ReplaceParameters";
 
 export function PreviousTurnResult(props: TurnSummaryModel & {locale: string}) {
   const style: React.CSSProperties = {
@@ -22,12 +21,12 @@ export function PreviousTurnResult(props: TurnSummaryModel & {locale: string}) {
     bottom: 0,
     backgroundColor: "rgba(255,255,255,0.5)",
   };
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   return (
     <div style={style}>
       <CenteredColumn>
-        <em>{localeStrings.previousTurnMessage}</em>
+        <em>{locale.string('previousTurnMessage')}</em>
       </CenteredColumn>
       <div
         style={{
@@ -43,7 +42,7 @@ export function PreviousTurnResult(props: TurnSummaryModel & {locale: string}) {
         />
         <CenteredColumn>
           <div>
-            <MiniMarkdown text={ReplaceParameters(localeStrings.clueGivenLabel, {name: props.clueGiverName, clue: props.clue})} />
+            <MiniMarkdown text={locale.string('clueGivenLabel', {name: props.clueGiverName, clue: props.clue})} />
           </div>
         </CenteredColumn>
       </div>

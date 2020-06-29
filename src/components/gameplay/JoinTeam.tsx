@@ -1,6 +1,6 @@
 import React from "react";
 import { CenteredRow, CenteredColumn } from "../common/LayoutElements";
-import { RoundPhase, Team, TeamName } from "../../state/GameState";
+import { RoundPhase, Team } from "../../state/GameState";
 import { Button } from "../common/Button";
 import { LongwaveAppTitle } from "../common/Title";
 import { useContext } from "react";
@@ -10,7 +10,7 @@ import { GetLocaleData } from "../../locale/GetLocaleData";
 
 export function JoinTeam(props: {locale: string}) {
   const { gameState, localPlayer, setGameState } = useContext(GameModelContext);
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   const leftTeam = Object.keys(gameState.players).filter(
     (playerId) => gameState.players[playerId].team === Team.Left
@@ -39,7 +39,7 @@ export function JoinTeam(props: {locale: string}) {
   return (
     <CenteredColumn>
       <LongwaveAppTitle />
-      <div>{localeStrings.joinTeamPrompt}</div>
+      <div>{locale.string('joinTeamPrompt')}</div>
       <CenteredRow
         style={{
           alignItems: "flex-start",
@@ -47,26 +47,26 @@ export function JoinTeam(props: {locale: string}) {
         }}
       >
         <CenteredColumn>
-          <div>{localeStrings[TeamName(Team.Left)]}</div>
+          <div>{locale.teamName(Team.Left)}</div>
           {leftTeam.map((playerId) => (
             <div key={playerId}>{gameState.players[playerId].name}</div>
           ))}
           <div>
-            <Button text={localeStrings.joinGameButton} onClick={() => joinTeam(Team.Left)} />
+            <Button text={locale.string('joinGameButton')} onClick={() => joinTeam(Team.Left)} />
           </div>
         </CenteredColumn>
         <CenteredColumn>
-          <div>{localeStrings[TeamName(Team.Right)]}</div>
+          <div>{locale.teamName(Team.Right)}</div>
           {rightTeam.map((playerId) => (
             <div key={playerId}>{gameState.players[playerId].name}</div>
           ))}
           <div>
-            <Button text={localeStrings.joinGameButton} onClick={() => joinTeam(Team.Right)} />
+            <Button text={locale.string('joinGameButton')} onClick={() => joinTeam(Team.Right)} />
           </div>
         </CenteredColumn>
       </CenteredRow>
       {gameState.roundPhase === RoundPhase.PickTeams && (
-        <Button text={localeStrings.startGameButton} onClick={startGame} />
+        <Button text={locale.string('startGameButton')} onClick={startGame} />
       )}
     </CenteredColumn>
   );

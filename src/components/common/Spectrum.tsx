@@ -19,7 +19,7 @@ export function Spectrum(props: {
     padding: 8,
     fontWeight: "bold",
   };
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   let handleStyle: React.CSSProperties = {
     height: 18,
@@ -52,14 +52,14 @@ export function Spectrum(props: {
   if (props.targetValue !== undefined) {
     marks[props.targetValue] = {
       style: { fontWeight: "bold", color: "black", cursor: "auto" },
-      label: localeStrings.dialTargetLabel,
+      label: locale.string('dialTargetLabel'),
     };
   }
 
   if (props.guessingValue !== undefined) {
     marks[props.guessingValue] = {
       style: { fontWeight: "bold", color: "black", cursor: "auto" },
-      label: localeStrings.dialGuessingLabel,
+      label: locale.string('dialGuessingLabel'),
     };
   }
 

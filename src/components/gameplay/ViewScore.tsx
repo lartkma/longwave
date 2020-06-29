@@ -8,18 +8,16 @@ import {
   GameType,
   Team,
   InitialGameState,
-  TeamName,
   TeamReverse,
 } from "../../state/GameState";
 import { GameModelContext } from "../../state/GameModelContext";
 import { NewRound } from "../../state/NewRound";
 import { Info } from "../common/Info";
 import { GetLocaleData } from "../../locale/GetLocaleData";
-import { ReplaceParameters } from "../common/ReplaceParameters";
 
 export function ViewScore(props: {locale: string}) {
   const { gameState, clueGiver, spectrumCard } = useContext(GameModelContext);
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   if (!clueGiver) {
     return null;
@@ -32,12 +30,6 @@ export function ViewScore(props: {locale: string}) {
     (gameState.counterGuess === "right" &&
       gameState.spectrumTarget > gameState.guess);
 
-  let scoreTemplate: string;
-  if (typeof localeStrings.scoreGivenMessage === 'string') {
-    scoreTemplate = localeStrings.scoreGivenMessage;
-  } else {
-    scoreTemplate = localeStrings.scoreGivenMessage(score);
-  }
   let reverseTeam = TeamReverse(clueGiver.team);
 
   return (
@@ -50,14 +42,14 @@ export function ViewScore(props: {locale: string}) {
       />
       <CenteredColumn>
         <div>
-          <MiniMarkdown text={ReplaceParameters(localeStrings.clueGivenLabel, {name: clueGiver.name, clue: gameState.clue})} />
+          <MiniMarkdown text={locale.string('clueGivenLabel', {name: clueGiver.name, clue: gameState.clue})} />
         </div>
-        <div>{ReplaceParameters(scoreTemplate, {score})}</div>
+        <div>{locale.string('scoreGivenMessage', {score})}</div>
         {gameState.gameType === GameType.Teams && (
           <div>
             {wasCounterGuessCorrect
-              ? ReplaceParameters(localeStrings.counterScoreMessageYes, {team: localeStrings[TeamName(reverseTeam)]})
-              : ReplaceParameters(localeStrings.counterScoreMessageNo, {team: localeStrings[TeamName(reverseTeam)]})}
+              ? locale.string('counterScoreMessageYes', {team: locale.teamName(reverseTeam)})
+              : locale.string('counterScoreMessageNo', {team: locale.teamName(reverseTeam)})}
           </div>
         )}
         <NextTurnOrEndGame locale={props.locale} />
@@ -70,7 +62,7 @@ function NextTurnOrEndGame(props: {locale: string}) {
   const { gameState, localPlayer, clueGiver, setGameState } = useContext(
     GameModelContext
   );
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   if (!clueGiver) {
     return null;
@@ -78,7 +70,7 @@ function NextTurnOrEndGame(props: {locale: string}) {
 
   const resetButton = (
     <Button
-      text={localeStrings.resetGameButton}
+      text={locale.string('resetGameButton')}
       onClick={() => {
         setGameState({
           ...InitialGameState(),
@@ -92,7 +84,7 @@ function NextTurnOrEndGame(props: {locale: string}) {
   if (gameState.leftScore >= 10 && gameState.leftScore > gameState.rightScore) {
     return (
       <>
-        <div>{ReplaceParameters(localeStrings.winTeamMessage, {team: localeStrings[TeamName(Team.Left)]})}</div>
+        <div>{locale.string('winTeamMessage', {team: locale.teamName(Team.Left)})}</div>
         {resetButton}
       </>
     );
@@ -104,7 +96,7 @@ function NextTurnOrEndGame(props: {locale: string}) {
   ) {
     return (
       <>
-        <div>{ReplaceParameters(localeStrings.winTeamMessage, {team: localeStrings[TeamName(Team.Right)]})}</div>
+        <div>{locale.string('winTeamMessage', {team: locale.teamName(Team.Right)})}</div>
         {resetButton}
       </>
     );
@@ -112,7 +104,7 @@ function NextTurnOrEndGame(props: {locale: string}) {
 
   const score = GetScore(gameState.spectrumTarget, gameState.guess);
 
-  const scoringTeamString = localeStrings[TeamName(clueGiver.team)];
+  const scoringTeamString = locale.teamName(clueGiver.team);
 
   let bonusTurn = false;
 
@@ -157,15 +149,15 @@ function NextTurnOrEndGame(props: {locale: string}) {
     <>
       {bonusTurn && (
         <CenteredRow>
-          <div>{ReplaceParameters(localeStrings.catchupMessageTitle, {team: scoringTeamString})}</div>
+          <div>{locale.string('catchupMessageTitle', {team: scoringTeamString})}</div>
           <Info>
-            {localeStrings.catchupMessageDescription}
+            {locale.string('catchupMessageDescription')}
           </Info>
         </CenteredRow>
       )}
       {eligibleToDraw && (
         <Button
-          text={localeStrings.drawNextCardButton}
+          text={locale.string('drawNextCardButton')}
           onClick={() => setGameState(NewRound(localPlayer.id, gameState))}
         />
       )}

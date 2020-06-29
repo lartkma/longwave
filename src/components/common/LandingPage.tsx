@@ -5,14 +5,14 @@ import { CenteredColumn } from "./LayoutElements";
 import { Button } from "./Button";
 import { MiniMarkdown } from "./MiniMarkdown";
 import { LongwaveAppTitle } from "./Title";
-import { GetLocaleData, GetLocaleList } from "../../locale/GetLocaleData";
+import { GetLocaleData, localeList } from "../../locale/GetLocaleData";
 
 export function LandingPage() {
   const history = useHistory();
   const { locale } = useParams();
-  const localeStrings = GetLocaleData(locale).strings;
+  const localeObj = GetLocaleData(locale);
 
-  let linkList = GetLocaleList().map((x, idx) => <Link key={idx} to={`/index-${x.prefix}`}>{x.name}</Link>);
+  let linkList = localeList.map((x, idx) => <Link key={idx} to={`/index-${x.prefix}`}>{x.name}</Link>);
   linkList = linkList.reduce((acc: any[], x, idx) => {
     if (idx !== 0) {
       acc.push(' | ');
@@ -26,13 +26,13 @@ export function LandingPage() {
     <CenteredColumn>
       <LongwaveAppTitle />
       <Button
-        text={localeStrings.createRoomButton}
+        text={localeObj.string('createRoomButton')}
         onClick={() => {
           history.push("/" + (locale ? locale + '/' : '') + RandomFourCharacterString());
         }}
       />
       <p style={{ margin: 8 }}>
-        <MiniMarkdown text={localeStrings.welcome} />
+        <MiniMarkdown text={localeObj.string('welcome')} />
       </p>
       <p style={{ margin: 8, fontSize: "small" }}>
         {linkList}

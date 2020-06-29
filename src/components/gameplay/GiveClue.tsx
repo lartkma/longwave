@@ -9,7 +9,6 @@ import { RandomSpectrumTarget } from "../../state/RandomSpectrumTarget";
 import { Info } from "../common/Info";
 import { Animate } from "../common/Animate";
 import { GetLocaleData } from "../../locale/GetLocaleData";
-import { ReplaceParameters } from "../common/ReplaceParameters";
 
 export function GiveClue(props: {locale: string}) {
   const {
@@ -23,7 +22,7 @@ export function GiveClue(props: {locale: string}) {
   const [disableSubmit, setDisableSubmit] = useState(
     !inputElement.current?.value?.length
   );
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   if (!clueGiver) {
     setGameState({
@@ -39,7 +38,7 @@ export function GiveClue(props: {locale: string}) {
           <Spectrum spectrumCard={spectrumCard} locale={props.locale}/>
         </Animate>
         <CenteredColumn>
-          <div>{ReplaceParameters(localeStrings.clueWaitingMessage, {name: clueGiver.name})}</div>
+          <div>{locale.string('clueWaitingMessage', {name: clueGiver.name})}</div>
         </CenteredColumn>
       </div>
     );
@@ -66,7 +65,7 @@ export function GiveClue(props: {locale: string}) {
   return (
     <div>
       <CenteredColumn style={{ alignItems: "flex-end" }}>
-        <Button text={localeStrings.drawNewCardButton} onClick={redrawCard} />
+        <Button text={locale.string('drawNewCardButton')} onClick={redrawCard} />
       </CenteredColumn>
       <Animate animation="wipe-reveal-right">
         <Spectrum
@@ -79,7 +78,7 @@ export function GiveClue(props: {locale: string}) {
         <CenteredRow>
           <input
             type="text"
-            placeholder={localeStrings.cluePlaceholder}
+            placeholder={locale.string('cluePlaceholder')}
             ref={inputElement}
             onKeyDown={(event) => {
               if (event.key !== "Enter") {
@@ -93,17 +92,17 @@ export function GiveClue(props: {locale: string}) {
           />
           <Info>
             <div>
-              {localeStrings.clueHelpMessage}
+              {locale.string('clueHelpMessage')}
               <ul>
-                <li>{localeStrings.clueTip1Message}</li>
-                <li>{localeStrings.clueTip2Message}</li>
-                <li>{localeStrings.clueTip3Message}</li>
-                <li>{localeStrings.clueTip4Message}</li>
+                <li>{locale.string('clueTip1Message')}</li>
+                <li>{locale.string('clueTip2Message')}</li>
+                <li>{locale.string('clueTip3Message')}</li>
+                <li>{locale.string('clueTip4Message')}</li>
               </ul>
             </div>
           </Info>
         </CenteredRow>
-        <Button text={localeStrings.clueSubmitButton} onClick={submit} disabled={disableSubmit} />
+        <Button text={locale.string('clueSubmitButton')} onClick={submit} disabled={disableSubmit} />
       </CenteredColumn>
     </div>
   );

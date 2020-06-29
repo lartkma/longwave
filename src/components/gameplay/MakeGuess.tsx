@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GameType, RoundPhase, TeamName } from "../../state/GameState";
+import { GameType, RoundPhase } from "../../state/GameState";
 import { Spectrum } from "../common/Spectrum";
 import { CenteredColumn } from "../common/LayoutElements";
 import { Button } from "../common/Button";
@@ -7,7 +7,6 @@ import { MiniMarkdown } from "../common/MiniMarkdown";
 import { GameModelContext } from "../../state/GameModelContext";
 import { RecordEvent } from "../../TrackEvent";
 import { GetLocaleData } from "../../locale/GetLocaleData";
-import { ReplaceParameters } from "../common/ReplaceParameters";
 
 export function MakeGuess(props: {locale: string}) {
   const {
@@ -27,8 +26,8 @@ export function MakeGuess(props: {locale: string}) {
     (gameState.gameType === GameType.Teams &&
       localPlayer.team !== clueGiver.team);
 
-  const localeStrings = GetLocaleData(props.locale).strings;
-  const guessingTeamString = localeStrings[TeamName(clueGiver.team)];
+  const locale = GetLocaleData(props.locale);
+  const guessingTeamString = locale.teamName(clueGiver.team);
 
   if (notMyTurn) {
     return (
@@ -36,9 +35,9 @@ export function MakeGuess(props: {locale: string}) {
         <Spectrum spectrumCard={spectrumCard} guessingValue={gameState.guess} locale={props.locale} />
         <CenteredColumn>
           <div>
-            <MiniMarkdown text={ReplaceParameters(localeStrings.clueGivenLabel, {name: clueGiver.name, clue: gameState.clue})} />
+            <MiniMarkdown text={locale.string('clueGivenLabel', {name: clueGiver.name, clue: gameState.clue})} />
           </div>
-          <div>{ReplaceParameters(localeStrings.clueGivenWaiting, {team: guessingTeamString})}</div>
+          <div>{locale.string('clueGivenWaiting', {team: guessingTeamString})}</div>
           {Object.keys(gameState.players).length < 2 && (
             <div
               style={{
@@ -47,8 +46,8 @@ export function MakeGuess(props: {locale: string}) {
                 border: "1px solid black",
               }}
             >
-              <p>{localeStrings.inviteMessage}</p>
-              <p>{ReplaceParameters(localeStrings.inviteShareURL, {url: window.location.href})}</p>
+              <p>{locale.string('inviteMessage')}</p>
+              <p>{locale.string('inviteShareURL', {url: window.location.href})}</p>
             </div>
           )}
         </CenteredColumn>
@@ -70,11 +69,11 @@ export function MakeGuess(props: {locale: string}) {
       />
       <CenteredColumn>
         <div>
-          <MiniMarkdown text={ReplaceParameters(localeStrings.clueGivenLabel, {name: clueGiver.name, clue: gameState.clue})} />
+          <MiniMarkdown text={locale.string('clueGivenLabel', {name: clueGiver.name, clue: gameState.clue})} />
         </div>
         <div>
           <Button
-            text={ReplaceParameters(localeStrings.guessSubmitButton, {team: localeStrings[TeamName(localPlayer.team)]})}
+            text={locale.string('guessSubmitButton', {team: locale.teamName(localPlayer.team)})}
             onClick={() => {
               RecordEvent("guess_submitted", {
                 spectrum_card: spectrumCard.join("|"),

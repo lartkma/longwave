@@ -16,7 +16,7 @@ export function CommonFooter() {
         fontSize: "small",
       }}
     >
-      <MiniMarkdown text={GetLocaleData(locale).strings.credits}/>
+      <MiniMarkdown text={GetLocaleData(locale).string('credits')}/>
     </div>
   );
 }

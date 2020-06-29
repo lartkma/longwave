@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { GameType, Team, TeamName } from "../../state/GameState";
+import { GameType, Team } from "../../state/GameState";
 import { CenteredRow, CenteredColumn } from "../common/LayoutElements";
 import { GameModelContext } from "../../state/GameModelContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,7 @@ import { GetLocaleData } from "../../locale/GetLocaleData";
 
 export function Scoreboard(props: {locale: string}) {
   const { gameState } = useContext(GameModelContext);
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   const style = {
     borderTop: "1px solid black",
@@ -23,7 +23,7 @@ export function Scoreboard(props: {locale: string}) {
   if (gameState.gameType === GameType.Freeplay) {
     return (
       <CenteredColumn style={style}>
-        <em>{localeStrings.freeModeTitle}</em>
+        <em>{locale.string('freeModeTitle')}</em>
         <CenteredRow style={{ flexWrap: "wrap" }}>
           {Object.keys(gameState.players).map(toPlayerRow)}
         </CenteredRow>
@@ -41,14 +41,7 @@ export function Scoreboard(props: {locale: string}) {
 
 function TeamColumn(props: { team: Team; score: number, locale: string }) {
   const { gameState } = useContext(GameModelContext);
-  const localeStrings = GetLocaleData(props.locale).strings;
-
-  let pointCounterTemplate : string;
-  if (typeof localeStrings.pointCounter === 'string') {
-    pointCounterTemplate = localeStrings.pointCounter;
-  } else {
-    pointCounterTemplate = localeStrings.pointCounter(props.score);
-  }
+  const locale = GetLocaleData(props.locale);
 
   const members = Object.keys(gameState.players).filter(
     (playerId) => gameState.players[playerId].team === props.team
@@ -57,7 +50,7 @@ function TeamColumn(props: { team: Team; score: number, locale: string }) {
   return (
     <CenteredColumn style={{ alignItems: "flex-start" }}>
       <div>
-        {convertTemplateToComponentArray(pointCounterTemplate, localeStrings[TeamName(props.team)], props.score)}
+        {insertAnimatableText(locale.string('pointCounter', {team: locale.teamName(props.team), value: props.score}), props.score)}
       </div>
       {members.map(toPlayerRow)}
     </CenteredColumn>
@@ -93,31 +86,19 @@ function AnimatableScore(props: { score: number }) {
   );
 }
 
-function convertTemplateToComponentArray(template: string, teamName: string, score: number) {
-  const paramsRegex = /{(team|value)}/g;
-  let lastIndex = 0;
-  let foundElement;
-  let parsedText: any[] = [];
+function insertAnimatableText(text: string, number: number) {
+  let numberAsText = number + '';
+  let foundIndex = text.indexOf(numberAsText);
 
-  while ((foundElement = paramsRegex.exec(template)) != null) {
-    if (foundElement.index !== lastIndex) {
-      parsedText.push(template.slice(lastIndex, foundElement.index));
-    }
-
-    if (foundElement[1] === 'team') {
-      parsedText.push(teamName);
-    } else if (foundElement[1] === 'value') {
-      parsedText.push(<AnimatableScore key="score-obj" score={score} />);
-    }
-
-    lastIndex = foundElement.index + foundElement[0].length;
+  if (foundIndex !== -1) {
+    return <>{[
+      text.slice(0, foundIndex),
+      <AnimatableScore key="score-obj" score={number} />,
+      text.slice(foundIndex + numberAsText.length)
+    ]}</>
+  } else {
+    return text;
   }
-
-  if (lastIndex !== template.length) {
-    parsedText.push(template.slice(lastIndex));
-  }
-
-  return <>{parsedText}</>;
 }
 
 function toPlayerRow(playerId: string) {

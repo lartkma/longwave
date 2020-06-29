@@ -6,11 +6,11 @@ import { GetLocaleData } from "../../locale/GetLocaleData";
 
 export function InputName(props: { locale: string, setName: (name: string) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
   return (
     <CenteredColumn>
       <LongwaveAppTitle />
-      <div>{localeStrings.playerNamePrompt}</div>
+      <div>{locale.string('playerNamePrompt')}</div>
       <input
         type="text"
         ref={inputRef}

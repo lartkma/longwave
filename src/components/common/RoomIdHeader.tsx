@@ -8,11 +8,10 @@ import { useContext } from "react";
 import { GameModelContext } from "../../state/GameModelContext";
 import { InitialGameState } from "../../state/GameState";
 import { GetLocaleData } from "../../locale/GetLocaleData";
-import { ReplaceParameters } from "./ReplaceParameters";
 
 export function RoomIdHeader(props: {locale: string}) {
   const { roomId } = useParams();
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   return (
     <CenteredRow
@@ -22,7 +21,7 @@ export function RoomIdHeader(props: {locale: string}) {
         color: "gray",
       }}
     >
-      <div style={{ margin: 4, padding: 4 }}>{ReplaceParameters(localeStrings.roomIdTitle, {roomId})}</div>
+      <div style={{ margin: 4, padding: 4 }}>{locale.string('roomIdTitle', {roomId})}</div>
       <Tippy content={<RoomMenu locale={props.locale} />} interactive placement="bottom-end">
         <div tabIndex={0} style={{ padding: 8 }}>
           <FontAwesomeIcon icon={faEllipsisV} />
@@ -34,7 +33,7 @@ export function RoomIdHeader(props: {locale: string}) {
 
 function RoomMenu(props: {locale: string}) {
   const { setGameState } = useContext(GameModelContext);
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   return (
     <div
@@ -42,7 +41,7 @@ function RoomMenu(props: {locale: string}) {
       style={{ cursor: "pointer" }}
       onClick={() => setGameState(InitialGameState())}
     >
-      {localeStrings.resetRoomButton}
+      {locale.string('resetRoomButton')}
     </div>
   );
 }

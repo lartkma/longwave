@@ -10,7 +10,7 @@ import { GetLocaleData } from "../../locale/GetLocaleData";
 
 export function SetupGame(props: {locale: string}) {
   const { gameState, setGameState, localPlayer } = useContext(GameModelContext);
-  const localeStrings = GetLocaleData(props.locale).strings;
+  const locale = GetLocaleData(props.locale);
 
   const startGame = (gameType: GameType) => {
     if (gameType === GameType.Teams) {
@@ -31,14 +31,14 @@ export function SetupGame(props: {locale: string}) {
       <LongwaveAppTitle />
       <CenteredRow>
         <Button
-          text={localeStrings.standardModeButton}
+          text={locale.string('standardModeButton')}
           onClick={() => startGame(GameType.Teams)}
         />
         {/* <Button
-          text={localeStrings.coopModeButton}
+          text={locale.string('coopModeButton')}
           onClick={() => startGame(GameType.Cooperative)}
         /> */}
-        <Button text={localeStrings.freeModeButton} onClick={() => startGame(GameType.Freeplay)} />
+        <Button text={locale.string('freeModeButton')} onClick={() => startGame(GameType.Freeplay)} />
       </CenteredRow>
     </CenteredColumn>
   );

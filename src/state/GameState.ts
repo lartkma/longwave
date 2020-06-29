@@ -32,16 +32,6 @@ export function TeamReverse(team: Team) {
   return Team.Unset;
 }
 
-export function TeamName(team: Team) {
-  if (team === Team.Left) {
-    return "teamLeftName";
-  }
-  if (team === Team.Right) {
-    return "teamRightName";
-  }
-  return "teamUnsetName";
-}
-
 export type PlayersTeams = {
   [playerId: string]: {
     name: string;
