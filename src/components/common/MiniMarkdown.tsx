@@ -1,6 +1,6 @@
 import React from "react";
 
-const formatElements: RegExp = /(?:\*\*([^*]+)\*\*|\*([^*]+)\*|\[([^\[\]]+)\]\(([^()]+)\))/g;
+const formatElements: RegExp = /(?:\*\*([^*]+)\*\*|\*([^*]+)\*|\[([^[\]]+)\]\(([^()]+)\))/g;
 
 export function MiniMarkdown(props: { text: string }) {
   let lastIndex = 0;
