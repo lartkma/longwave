@@ -7,9 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import { GameModelContext } from "../../state/GameModelContext";
 import { InitialGameState } from "../../state/GameState";
+import { GetLocaleData } from "../../locale/GetLocaleData";
+import { ReplaceParameters } from "./ReplaceParameters";
 
-export function RoomIdHeader() {
+export function RoomIdHeader(props: {locale: string}) {
   const { roomId } = useParams();
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   return (
     <CenteredRow
@@ -19,8 +22,8 @@ export function RoomIdHeader() {
         color: "gray",
       }}
     >
-      <div style={{ margin: 4, padding: 4 }}>Room ID: {roomId}</div>
-      <Tippy content={<RoomMenu />} interactive placement="bottom-end">
+      <div style={{ margin: 4, padding: 4 }}>{ReplaceParameters(localeStrings.roomIdTitle, {roomId})}</div>
+      <Tippy content={<RoomMenu locale={props.locale} />} interactive placement="bottom-end">
         <div tabIndex={0} style={{ padding: 8 }}>
           <FontAwesomeIcon icon={faEllipsisV} />
         </div>
@@ -29,8 +32,9 @@ export function RoomIdHeader() {
   );
 }
 
-function RoomMenu() {
+function RoomMenu(props: {locale: string}) {
   const { setGameState } = useContext(GameModelContext);
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   return (
     <div
@@ -38,7 +42,7 @@ function RoomMenu() {
       style={{ cursor: "pointer" }}
       onClick={() => setGameState(InitialGameState())}
     >
-      Reset Room
+      {localeStrings.resetRoomButton}
     </div>
   );
 }

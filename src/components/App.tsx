@@ -24,7 +24,7 @@ function App() {
               <LandingPage />
               <CommonFooter />
             </Route>
-            <Route path="/:roomId">
+            <Route path="/:locale?/:roomId">
               <GameRoom />
               <CommonFooter />
             </Route>

@@ -28,7 +28,7 @@ export function LandingPage() {
       <Button
         text={localeStrings.createRoomButton}
         onClick={() => {
-          history.push("/" + RandomFourCharacterString());
+          history.push("/" + (locale ? locale + '/' : '') + RandomFourCharacterString());
         }}
       />
       <p style={{ margin: 8 }}>

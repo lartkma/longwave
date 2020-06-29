@@ -11,7 +11,7 @@ import {
   RoundPhase,
 } from "../../state/GameState";
 
-export function FakeRooms() {
+export function FakeRooms(props: {locale: string}) {
   const [gameState, setGameState] = useState<GameState>({
     ...InitialGameState(),
     gameType: GameType.Teams,
@@ -54,7 +54,7 @@ export function FakeRooms() {
       <GameModelContext.Provider
         value={BuildGameModel(gameState, setPartialGameState, playerId)}
       >
-        <ActiveGame />
+        <ActiveGame locale={props.locale} />
       </GameModelContext.Provider>
     </div>
   );

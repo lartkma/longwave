@@ -11,11 +11,11 @@ import { useContext } from "react";
 import { GameModelContext } from "../../state/GameModelContext";
 import { PreviousTurnResult } from "./PreviousTurnResult";
 
-export function ActiveGame() {
+export function ActiveGame(props: {locale: string}) {
   const { gameState, localPlayer } = useContext(GameModelContext);
 
   if (gameState.roundPhase === RoundPhase.SetupGame) {
-    return <SetupGame />;
+    return <SetupGame locale={props.locale} />;
   }
 
   if (

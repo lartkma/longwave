@@ -11,7 +11,7 @@ import { RoomIdHeader } from "../common/RoomIdHeader";
 import { FakeRooms } from "./FakeRooms";
 
 export function GameRoom() {
-  const { roomId } = useParams();
+  const { locale = 'en', roomId } = useParams();
   if (roomId === undefined) {
     throw new Error("RoomId missing");
   }
@@ -29,7 +29,7 @@ export function GameRoom() {
   );
 
   if (roomId === "MULTIPLAYER_TEST") {
-    return <FakeRooms />;
+    return <FakeRooms locale={locale} />;
   }
 
   const gameModel = BuildGameModel(gameState, setGameState, playerId);
@@ -52,8 +52,8 @@ export function GameRoom() {
 
   return (
     <GameModelContext.Provider value={gameModel}>
-      <RoomIdHeader />
-      <ActiveGame />
+      <RoomIdHeader locale={locale}/>
+      <ActiveGame locale={locale}/>
     </GameModelContext.Provider>
   );
 }

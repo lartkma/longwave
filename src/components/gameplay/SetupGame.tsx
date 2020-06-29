@@ -6,9 +6,11 @@ import { LongwaveAppTitle } from "../common/Title";
 import { useContext } from "react";
 import { GameModelContext } from "../../state/GameModelContext";
 import { NewRound } from "../../state/NewRound";
+import { GetLocaleData } from "../../locale/GetLocaleData";
 
-export function SetupGame() {
+export function SetupGame(props: {locale: string}) {
   const { gameState, setGameState, localPlayer } = useContext(GameModelContext);
+  const localeStrings = GetLocaleData(props.locale).strings;
 
   const startGame = (gameType: GameType) => {
     if (gameType === GameType.Teams) {
@@ -29,14 +31,14 @@ export function SetupGame() {
       <LongwaveAppTitle />
       <CenteredRow>
         <Button
-          text="Standard (Teams): 4+ Players"
+          text={localeStrings.standardModeButton}
           onClick={() => startGame(GameType.Teams)}
         />
         {/* <Button
-          text="Cooperative"
+          text={localeStrings.coopModeButton}
           onClick={() => startGame(GameType.Cooperative)}
         /> */}
-        <Button text="Free Play: 2+ Players" onClick={() => startGame(GameType.Freeplay)} />
+        <Button text={localeStrings.freeModeButton} onClick={() => startGame(GameType.Freeplay)} />
       </CenteredRow>
     </CenteredColumn>
   );
