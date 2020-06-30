@@ -4,7 +4,8 @@ import { NewRound } from "./NewRound";
 export function NewTeamGame(
   players: PlayersTeams,
   startPlayer: string,
-  gameState: GameState
+  gameState: GameState,
+  cardLocale: string
 ): Partial<GameState> {
   const initialScores: Partial<GameState> = {
     leftScore: 0,
@@ -19,7 +20,7 @@ export function NewTeamGame(
   }
 
   return {
-    ...NewRound(startPlayer, gameState),
+    ...NewRound(startPlayer, gameState, cardLocale),
     ...initialScores,
     previousTurn: null,
     gameType: GameType.Teams,

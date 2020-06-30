@@ -55,12 +55,18 @@ export class LocaleData {
 
   readonly prefix: string;
   readonly name: string;
+  readonly allSpectrumCards: [string, string][];
   private strings: LocaleStrings;
 
-  constructor(prefix: string, name: string, strings: LocaleStrings) {
+  constructor(prefix: string, name: string, properties: {
+    strings: LocaleStrings,
+    spectrumCards: [string, string][],
+    advancedSpectrumCards: [string, string][]
+  }) {
     this.prefix = prefix;
     this.name = name;
-    this.strings = strings;
+    this.strings = properties.strings;
+    this.allSpectrumCards = [...properties.spectrumCards, ...properties.advancedSpectrumCards];
   }
 
   string(key: keyof LocaleStrings, parameters?: {[key: string]: any}): string {

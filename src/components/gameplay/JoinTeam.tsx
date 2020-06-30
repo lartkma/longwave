@@ -33,7 +33,7 @@ export function JoinTeam(props: {locale: string}) {
 
   const startGame = () =>
     setGameState(
-      NewTeamGame(gameState.players, localPlayer.id, gameState)
+      NewTeamGame(gameState.players, localPlayer.id, gameState, locale.prefix)
     );
 
   return (

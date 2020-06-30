@@ -21,7 +21,7 @@ test("Assigns player to the selected team", () => {
   const setState = jest.fn();
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, setState, "playerId")}
+      value={BuildGameModel(gameState, setState, "playerId", "en")}
     >
       <JoinTeam locale="en" />
     </GameModelContext.Provider>
@@ -73,7 +73,7 @@ test("Shows current team members", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <JoinTeam locale="en" />
     </GameModelContext.Provider>

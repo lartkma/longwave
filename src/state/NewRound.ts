@@ -4,9 +4,10 @@ import { BuildGameModel } from "./BuildGameModel";
 
 export function NewRound(
   playerId: string,
-  gameState: GameState
+  gameState: GameState,
+  cardLocale: string
 ): Partial<GameState> {
-  const gameModel = BuildGameModel(gameState, () => {}, playerId);
+  const gameModel = BuildGameModel(gameState, () => {}, playerId, cardLocale);
 
   const newState: Partial<GameState> = {
     clueGiver: playerId,

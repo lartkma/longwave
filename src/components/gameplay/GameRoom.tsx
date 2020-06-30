@@ -32,7 +32,7 @@ export function GameRoom() {
     return <FakeRooms locale={locale} />;
   }
 
-  const gameModel = BuildGameModel(gameState, setGameState, playerId);
+  const gameModel = BuildGameModel(gameState, setGameState, playerId, locale);
 
   if (playerName.length === 0) {
     return (

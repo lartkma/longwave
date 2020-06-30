@@ -25,7 +25,7 @@ test("Applies 4 points for a perfect guess", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>
@@ -44,7 +44,7 @@ test("Applies 2 points for off by 2", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>
@@ -63,7 +63,7 @@ test("Applies 0 points for off by 3", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>
@@ -83,7 +83,7 @@ test("Includes the score for a correct counter guess", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>
@@ -105,7 +105,7 @@ test("Includes the score for a wrong counter guess", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>
@@ -127,7 +127,7 @@ test("Applies catchup rule", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>
@@ -147,7 +147,7 @@ test("Ends game when one team has 10 points", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>
@@ -166,7 +166,7 @@ test("Does not end game when both teams have 10 points", () => {
 
   const component = render(
     <GameModelContext.Provider
-      value={BuildGameModel(gameState, jest.fn(), "playerId")}
+      value={BuildGameModel(gameState, jest.fn(), "playerId", "en")}
     >
       <ViewScore locale="en"/>
     </GameModelContext.Provider>

@@ -20,7 +20,7 @@ export function SetupGame(props: {locale: string}) {
       });
     } else {
       setGameState({
-        ...NewRound(localPlayer.id, gameState),
+        ...NewRound(localPlayer.id, gameState, locale.prefix),
         gameType,
       });
     }

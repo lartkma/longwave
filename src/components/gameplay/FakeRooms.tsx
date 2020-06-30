@@ -52,7 +52,7 @@ export function FakeRooms(props: {locale: string}) {
   const renderGame = (playerId: string) => (
     <div style={style}>
       <GameModelContext.Provider
-        value={BuildGameModel(gameState, setPartialGameState, playerId)}
+        value={BuildGameModel(gameState, setPartialGameState, playerId, props.locale)}
       >
         <ActiveGame locale={props.locale} />
       </GameModelContext.Provider>

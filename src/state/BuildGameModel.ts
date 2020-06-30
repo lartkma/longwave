@@ -1,6 +1,6 @@
 import { GameState, Team } from "./GameState";
 import memoize from "lodash/memoize";
-import { AllCards } from "./SpectrumCards";
+import { GetLocaleData } from "../locale/GetLocaleData";
 
 const shuffleSeed: {
   shuffle: <T>(arr: T[], seed: string) => T[];
@@ -27,7 +27,8 @@ const getSeededDeck = memoize((seed: string, cards: [string, string][]) =>
 export function BuildGameModel(
   gameState: GameState,
   setGameState: (newState: Partial<GameState>) => void,
-  localPlayerId: string
+  localPlayerId: string,
+  cardLocale: string
 ): GameModel {
   const clueGiver = gameState.players[gameState.clueGiver]
     ? {
@@ -36,7 +37,7 @@ export function BuildGameModel(
       }
     : null;
 
-  const spectrumDeck = getSeededDeck(gameState.deckSeed, AllCards);
+  const spectrumDeck = getSeededDeck(gameState.deckSeed, GetLocaleData(cardLocale).allSpectrumCards);
 
   return {
     gameState,

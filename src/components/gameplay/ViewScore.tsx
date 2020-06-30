@@ -158,7 +158,7 @@ function NextTurnOrEndGame(props: {locale: string}) {
       {eligibleToDraw && (
         <Button
           text={locale.string('drawNextCardButton')}
-          onClick={() => setGameState(NewRound(localPlayer.id, gameState))}
+          onClick={() => setGameState(NewRound(localPlayer.id, gameState, locale.prefix))}
         />
       )}
     </>
