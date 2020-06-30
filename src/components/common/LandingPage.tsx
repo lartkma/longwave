@@ -12,16 +12,6 @@ export function LandingPage() {
   const { locale } = useParams();
   const localeObj = GetLocaleData(locale);
 
-  let linkList = localeList.map((x, idx) => <Link key={idx} to={`/index-${x.prefix}`}>{x.name}</Link>);
-  linkList = linkList.reduce((acc: any[], x, idx) => {
-    if (idx !== 0) {
-      acc.push(' | ');
-    }
-    acc.push(x);
-
-    return acc;
-  }, []);
-
   return (
     <CenteredColumn>
       <LongwaveAppTitle />
@@ -35,8 +25,24 @@ export function LandingPage() {
         <MiniMarkdown text={localeObj.string('welcome')} />
       </p>
       <p style={{ margin: 8, fontSize: "small" }}>
-        {linkList}
+        <LocaleList />
       </p>
     </CenteredColumn>
+  );
+}
+
+function LocaleList() {
+  let linkList = localeList.map((x, idx) => <Link key={idx} to={`/index-${x.prefix}`}>{x.name}</Link>);
+  linkList = linkList.reduce((acc: any[], x, idx) => {
+    if (idx !== 0) {
+      acc.push(' | ');
+    }
+    acc.push(x);
+
+    return acc;
+  }, []);
+
+  return (
+    <>{linkList}</>
   );
 }
